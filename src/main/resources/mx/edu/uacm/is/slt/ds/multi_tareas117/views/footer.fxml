@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT" spacing="10" styleClass="footer">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <FontIcon iconLiteral="fas-copyright" styleClass="icon-muted"/>
+
+    <Label text="© 2025 Propiedad de Multi-tareas117. Todos los derechos reservados."
+           styleClass="text-muted, text-small"/>
+
+    <HBox HBox.hgrow="ALWAYS"/>
+
+    <Label text="Versión 1.0.0" styleClass="text-muted, text-small"/>
+
+</HBox>
