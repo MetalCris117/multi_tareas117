@@ -71,6 +71,7 @@ public class LoginController {
     private void openDashboard() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/layout/main-layout.fxml"));
+
             Parent root = fxmlLoader.load();
 
             Stage dashboardStage = new Stage();

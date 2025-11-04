@@ -1,0 +1,60 @@
+/*
+ * Estilos Kanban (Versión 3 - Con !important para forzar)
+ */
+
+.kanban-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px;
+    -fx-text-fill: white !important; /* Texto siempre blanco */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.kanban-category-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 0 10px 0 0;
+
+    /* Forzamos un color gris claro visible */
+    -fx-text-fill: #b0bec5 !important;
+}
+
+.kanban-cell {
+    /* Forzamos un fondo de celda gris oscuro */
+    -fx-background-color: #2b3035 !important;
+
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-spacing: 5px;
+    -fx-alignment: TOP_CENTER;
+}
+
+.kanban-card {
+    /* Forzamos un fondo de tarjeta gris (más claro que la celda) */
+    -fx-background-color: #343a40 !important;
+
+    -fx-background-radius: 5px;
+
+    /* Forzamos un borde sutil */
+    -fx-border-color: #495057 !important;
+
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER;
+}
+
+.kanban-card .label {
+    -fx-text-fill: #e0e0e0 !important;
+}
+
+
+.kanban-cell:drag-over {
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 2px;
+    -fx-border-style: dashed;
+}

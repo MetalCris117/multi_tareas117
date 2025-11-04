@@ -8,11 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.layout.BorderPane?>
 
 <BorderPane fx:id="mainLayout" xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.MainController"
-            prefHeight="800.0" prefWidth="1200.0">
+            prefHeight="800.0" prefWidth="1200.0"
+            stylesheets="@../../css/kanban-styles.css">
+
 
     <top>
         <HBox styleClass="header" alignment="CENTER_LEFT" spacing="10" prefHeight="50">

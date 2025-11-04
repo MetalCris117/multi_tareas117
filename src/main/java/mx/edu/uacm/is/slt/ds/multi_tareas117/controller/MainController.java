@@ -14,13 +14,9 @@ import java.io.IOException;
 
 public class MainController {
 
-    // --- Inyección de Componentes ---
-
-    // Contenedores
     @FXML
     private VBox sidebar;
 
-    // ¡NUEVO! El contenedor central
     @FXML
     private AnchorPane mainContentArea;
 
@@ -32,28 +28,25 @@ public class MainController {
     @FXML
     private Button usuariosButton;
 
-    // Etiquetas
     @FXML
     private Label sidebarMenuLabel;
 
-    // --- Variables de estado ---
+
 
     private boolean isSidebarCollapsed = false;
     private final double COLLAPSED_WIDTH = 70.0;
     private final double EXPANDED_WIDTH = 220.0;
 
-    // --- Lógica de Inicialización ---
+
 
     @FXML
     public void initialize() {
-        // 1. Asignamos el evento al botón de hamburguesa
+
         sidebarToggleButton.setOnAction(e -> toggleSidebar());
 
-        // ¡NUEVO! 2. Cargamos la vista por defecto (el dashboard)
         loadView("dashboard-view.fxml");
     }
 
-    // --- Lógica del Menú Lateral (Sidebar) ---
 
     private void toggleSidebar() {
         if (isSidebarCollapsed) {
@@ -87,8 +80,6 @@ public class MainController {
     }
 
 
-    // --- ¡NUEVO! Lógica de Navegación ---
-
     /**
      * Carga la vista de Dashboard cuando se hace clic en el botón.
      */
@@ -113,15 +104,12 @@ public class MainController {
      */
     private void loadView(String fxmlFileName) {
         try {
-            // Carga el FXML de la vista
-            // Usamos HelloApplication.class para obtener la ruta base correcta
+
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/pages/" + fxmlFileName));
             Node view = loader.load();
 
-            // Limpia el contenido anterior y añade la nueva vista
             mainContentArea.getChildren().setAll(view);
 
-            // Ajusta la vista para que llene el AnchorPane
             AnchorPane.setTopAnchor(view, 0.0);
             AnchorPane.setBottomAnchor(view, 0.0);
             AnchorPane.setLeftAnchor(view, 0.0);
@@ -129,7 +117,7 @@ public class MainController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            // Opcional: mostrar un diálogo de error
+
         }
     }
 }
