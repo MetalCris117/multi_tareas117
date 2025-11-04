@@ -45,7 +45,8 @@
                 </VBox>
                 <VBox spacing="5" alignment="BASELINE_LEFT" maxWidth="Infinity">
                     <Label text="Contraseña (1234)"/>
-                    <PasswordField fx:id="passwordField" promptText="••••••••"/>
+                    <PasswordField fx:id="passwordField" promptText="••••••••"
+                    onAction= "#onLoginEnterClick"/>
                 </VBox>
                 <Button fx:id="loginButton" text="Entrar"
                         onAction="#onLoginButtonClick"
@@ -59,7 +60,7 @@
     </center>
 
     <bottom>
-        <fx:include source="footer.fxml" />
+        <fx:include source="layout/footer.fxml" />
     </bottom>
 
 </BorderPane>

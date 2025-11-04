@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20"/>
+    </padding>
+    <Label text="Dashboard Principal" styleClass="h1"/>
+    <Label text="¡Bienvenido a mi panel! Aquí pondremos gráficas y estadísticas."/>
+</VBox>

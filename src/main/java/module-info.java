@@ -1,5 +1,6 @@
+@SuppressWarnings("module")
 module mx.edu.uacm.is.slt.ds.multi_tareas117 {
-    // Módulos que tu app necesita
+
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
