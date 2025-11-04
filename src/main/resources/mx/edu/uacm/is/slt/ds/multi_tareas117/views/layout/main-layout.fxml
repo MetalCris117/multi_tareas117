@@ -8,11 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.layout.BorderPane?>
 
 <BorderPane fx:id="mainLayout" xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.MainController"
-            prefHeight="800.0" prefWidth="1200.0">
+            prefHeight="800.0" prefWidth="1200.0"
+            stylesheets="@../../css/kanban-styles.css">
+
 
     <top>
         <HBox styleClass="header" alignment="CENTER_LEFT" spacing="10" prefHeight="50">
@@ -30,19 +33,22 @@
 
     <left>
         <VBox fx:id="sidebar" styleClass="sidebar" prefWidth="220" spacing="5">
+
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-
             <Label fx:id="sidebarMenuLabel" text="MENÚ PRINCIPAL" styleClass="text-small, text-muted"/>
-
-            <Button fx:id="dashboardButton" text="Dashboard" maxWidth="Infinity" styleClass="button-flat" alignment="BASELINE_LEFT">
+            <Button fx:id="dashboardButton" text="Dashboard" maxWidth="Infinity"
+                    styleClass="button-flat" alignment="BASELINE_LEFT"
+                    onAction="#onDashboardClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-tachometer-alt"/>
                 </graphic>
             </Button>
 
-            <Button fx:id="usuariosButton" text="Usuarios" maxWidth="Infinity" styleClass="button-flat" alignment="BASELINE_LEFT">
+            <Button fx:id="usuariosButton" text="Usuarios" maxWidth="Infinity"
+                    styleClass="button-flat" alignment="BASELINE_LEFT"
+                    onAction="#onUsuariosClick">
                 <graphic>
                     <FontIcon iconLiteral="fas-users"/>
                 </graphic>
@@ -51,12 +57,7 @@
     </left>
 
     <center>
-        <AnchorPane fx:id="mainContentArea">
-            <padding>
-                <Insets top="20" left="20" right="20" bottom="20"/>
-            </padding>
-            <Label text="¡Bienvenido a mi panel!" styleClass="h1"/>
-        </AnchorPane>
+        <AnchorPane fx:id="mainContentArea" />
     </center>
 
     <bottom>

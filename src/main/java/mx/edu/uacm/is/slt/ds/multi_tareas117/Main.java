@@ -8,14 +8,14 @@ import atlantafx.base.theme.PrimerDark;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
 
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("views/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/login-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);
         stage.setTitle("Inicio de Sesión");

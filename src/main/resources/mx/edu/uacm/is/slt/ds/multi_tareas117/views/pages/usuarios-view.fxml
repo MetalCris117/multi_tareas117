@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.UsuariosController">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20"/>
+    </padding>
+
+    <top>
+        <Label text="Directorio de Usuarios" styleClass="h1" BorderPane.alignment="CENTER_LEFT"/>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.35" BorderPane.alignment="CENTER">
+
+            <VBox spacing="10" minWidth="250">
+                <children>
+                    <Label text="Compañeros" styleClass="h4"/>
+                    <ListView fx:id="userListView" VBox.vgrow="ALWAYS"/>
+                </children>
+            </VBox>
+
+            <StackPane fx:id="detailStackPane">
+
+                <Label fx:id="placeholderLabel" text="Selecciona un usuario para enviarle un mensaje."
+                       styleClass="text-muted"/>
+
+                <VBox fx:id="userDetailView" spacing="15" visible="false">
+                    <padding>
+                        <Insets top="10" left="20" right="10" bottom="10"/>
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontIcon fx:id="selectedUserAvatar" iconSize="24"/>
+                        <Label fx:id="selectedUserName" styleClass="h3"/>
+                    </HBox>
+
+                    <Label fx:id="selectedUserStatus" styleClass="text-success"/>
+
+                    <Label text="Escribir Mensaje:" styleClass="h5"/>
+                    <TextArea fx:id="messageTextArea" promptText="Escribe tu mensaje aquí..."
+                              wrapText="true" VBox.vgrow="ALWAYS"/>
+
+                    <Button fx:id="sendMessageButton" text="Enviar Mensaje"
+                            onAction="#onSendMessageClick" styleClass="button-accent"
+                            maxWidth="Infinity">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-paper-plane"/>
+                        </graphic>
+                    </Button>
+                </VBox>
+
+            </StackPane>
+        </SplitPane>
+    </center>
+
+</BorderPane>

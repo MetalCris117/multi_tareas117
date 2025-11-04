@@ -109,7 +109,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                mx.edu.uacm.is.slt.ds.multi_tareas117/mx.edu.uacm.is.slt.ds.multi_tareas117.HelloApplication
+                                mx.edu.uacm.is.slt.ds.multi_tareas117/mx.edu.uacm.is.slt.ds.multi_tareas117.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

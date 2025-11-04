@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import mx.edu.uacm.is.slt.ds.multi_tareas117.HelloApplication;
+import mx.edu.uacm.is.slt.ds.multi_tareas117.Main;
 
 import java.io.IOException;
 
@@ -46,17 +46,36 @@ public class LoginController {
             errorLabel.setVisible(true);
         }
     }
+    /**
+     * Este método se llama cuando se presiona Enter en passwordField.
+     */
+    @FXML
+    void onLoginEnterClick(ActionEvent event) throws IOException {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+
+        if (username.equals("admin") && password.equals("1234")) {
+
+            errorLabel.setVisible(false);
+            openDashboard();
+        } else {
+            errorLabel.setText("Usuario o contraseña incorrectos.");
+            errorLabel.setVisible(true);
+        }
+    }
 
     /**
      * Carga el FXML del dashboard en una nueva ventana.
      */
     private void openDashboard() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("views/main-layout.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/layout/main-layout.fxml"));
+
             Parent root = fxmlLoader.load();
 
             Stage dashboardStage = new Stage();
-            dashboardStage.setTitle("Mi Dashboard");
+            dashboardStage.setTitle("Dashboard");
             dashboardStage.setScene(new Scene(root, 1200, 800));
             dashboardStage.show();
 
