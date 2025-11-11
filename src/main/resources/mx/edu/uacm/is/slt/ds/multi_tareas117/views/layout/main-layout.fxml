@@ -53,6 +53,13 @@
                     <FontIcon iconLiteral="fas-users"/>
                 </graphic>
             </Button>
+            <Button fx:id="profileButton" text="Mi Perfil" maxWidth="Infinity"
+                    styleClass="button-flat" alignment="BASELINE_LEFT"
+                    onAction="#onProfileClick">
+                <graphic>
+                    <FontIcon iconLiteral="fas-id-card"/>
+                </graphic>
+            </Button>
         </VBox>
     </left>
 

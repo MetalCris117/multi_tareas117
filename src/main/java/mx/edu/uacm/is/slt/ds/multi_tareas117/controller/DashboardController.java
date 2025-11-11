@@ -54,9 +54,7 @@ public class DashboardController {
      */
     private void setupDropTarget(VBox cell) {
 
-        // Evento 1: Cuando algo se arrastra SOBRE la celda
         cell.setOnDragOver(event -> {
-            // Aceptamos el evento si viene de una tarjeta ("kanban-card")
             if (event.getGestureSource() != cell && event.getDragboard().hasString()) {
                 if (event.getDragboard().getString().equals("kanban-card")) {
                     event.acceptTransferModes(TransferMode.MOVE);

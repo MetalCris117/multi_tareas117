@@ -40,11 +40,11 @@
                 </padding>
                 <Label text="Inicio de Sesión" styleClass="h2"/>
                 <VBox spacing="5" alignment="BASELINE_LEFT" maxWidth="Infinity">
-                    <Label text="Usuario (admin)"/>
-                    <TextField fx:id="usernameField" promptText="admin@correo.com"/>
+                    <Label text="Usuario"/>
+                    <TextField fx:id="usernameField" promptText="Usuario"/>
                 </VBox>
                 <VBox spacing="5" alignment="BASELINE_LEFT" maxWidth="Infinity">
-                    <Label text="Contraseña (1234)"/>
+                    <Label text="Contraseña"/>
                     <PasswordField fx:id="passwordField" promptText="••••••••"
                     onAction= "#onLoginEnterClick"/>
                 </VBox>
@@ -52,7 +52,10 @@
                         onAction="#onLoginButtonClick"
                         maxWidth="Infinity" styleClass="accent, large"/>
                 <Label fx:id="errorLabel" styleClass="text-danger" visible="false"/>
-                <Button text="¿No tienes cuenta? Regístrate"
+
+                <Button fx:id="registerLinkButton"
+                        text="¿No tienes cuenta? Regístrate"
+                        onAction="#onRegisterLinkClick"
                         styleClass="flat" maxWidth="Infinity"/>
             </VBox>
 
@@ -60,7 +63,7 @@
     </center>
 
     <bottom>
-        <fx:include source="layout/footer.fxml" />
+        <fx:include source="../layout/footer.fxml" />
     </bottom>
 
 </BorderPane>

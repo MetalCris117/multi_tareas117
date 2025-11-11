@@ -12,7 +12,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class UsuariosController {
 
-    // --- Inyección FXML ---
     @FXML
     private ListView<User> userListView;
 
@@ -71,9 +70,9 @@ public class UsuariosController {
                     icon.setIconLiteral(user.getAvatar());
 
                     if (user.getStatus().equals("Online")) {
-                        icon.getStyleClass().addAll("icon-success"); // Verde
+                        icon.getStyleClass().addAll("icon-success");
                     } else {
-                        icon.getStyleClass().addAll("icon-muted"); // Gris
+                        icon.getStyleClass().addAll("icon-muted");
                     }
                     setGraphic(graphic);
                 }
@@ -103,7 +102,6 @@ public class UsuariosController {
             return;
         }
 
-        // Guardar el usuario seleccionado
         currentlySelectedUser = user;
 
         // Rellenar los campos
@@ -111,7 +109,6 @@ public class UsuariosController {
         selectedUserStatus.setText(user.getStatus());
         selectedUserAvatar.setIconLiteral(user.getAvatar());
 
-        // Aplicar estilos de color al estado
         selectedUserStatus.getStyleClass().removeAll("text-success", "text-muted");
         if (user.getStatus().equals("Online")) {
             selectedUserStatus.getStyleClass().add("text-success");
@@ -119,7 +116,6 @@ public class UsuariosController {
             selectedUserStatus.getStyleClass().add("text-muted");
         }
 
-        // Mostrar el panel de detalles
         placeholderLabel.setVisible(false);
         userDetailView.setVisible(true);
     }
