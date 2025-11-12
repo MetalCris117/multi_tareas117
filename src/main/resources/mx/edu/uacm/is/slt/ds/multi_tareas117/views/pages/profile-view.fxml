@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox spacing="20" maxWidth="600" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.ProfileController">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20"/>
+    </padding>
+
+    <Label text="Mi Perfil" styleClass="h1"/>
+    <Label text="Aquí puedes actualizar tu nombre y cambiar tu contraseña."/>
+
+    <VBox spacing="5" alignment="BASELINE_LEFT">
+        <Label text="Nombre de Usuario (Login)"/>
+        <TextField fx:id="usernameField" editable="false" styleClass="input-group-field, disabled"/>
+        <Label text="No puedes cambiar tu nombre de usuario." styleClass="text-small, text-muted"/>
+    </VBox>
+
+    <VBox spacing="5" alignment="BASELINE_LEFT">
+        <Label text="Nombre Completo"/>
+        <TextField fx:id="fullNameField"/>
+    </VBox>
+
+    <Label text="Cambiar Contraseña" styleClass="h3"/>
+
+    <VBox spacing="5" alignment="BASELINE_LEFT">
+        <Label text="Nueva Contraseña (deja en blanco para no cambiar)"/>
+        <PasswordField fx:id="passwordField"/>
+    </VBox>
+
+    <VBox spacing="5" alignment="BASELINE_LEFT">
+        <Label text="Confirmar Nueva Contraseña"/>
+        <PasswordField fx:id="confirmPasswordField"/>
+    </VBox>
+
+    <Label fx:id="errorLabel" styleClass="text-danger" visible="false" wrapText="true"/>
+
+    <Button fx:id="saveButton" text="Guardar Cambios" onAction="#onSaveClick"
+            styleClass="accent, large" maxWidth="Infinity">
+        <graphic>
+            <FontIcon iconLiteral="fas-save"/>
+        </graphic>
+    </Button>
+
+</VBox>

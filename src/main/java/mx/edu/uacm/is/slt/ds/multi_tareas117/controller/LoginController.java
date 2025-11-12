@@ -5,14 +5,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mx.edu.uacm.is.slt.ds.multi_tareas117.DAO.UserDAO;
 import mx.edu.uacm.is.slt.ds.multi_tareas117.Main;
-
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import java.io.IOException;
+import atlantafx.base.theme.PrimerDark;
+import mx.edu.uacm.is.slt.ds.multi_tareas117.util.SessionManager;
 
 public class LoginController {
 
@@ -28,35 +33,36 @@ public class LoginController {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Button registerLinkButton;
+
+    private UserDAO userDAO = new UserDAO();
+
     /**
      * Este método se llama cuando se presiona el botón "Entrar".
      */
     @FXML
     void onLoginButtonClick(ActionEvent event) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-
-        if (username.equals("admin") && password.equals("1234")) {
-
-            errorLabel.setVisible(false);
-            openDashboard();
-        } else {
-            errorLabel.setText("Usuario o contraseña incorrectos.");
-            errorLabel.setVisible(true);
-        }
+        validateAndLogin();
     }
     /**
      * Este método se llama cuando se presiona Enter en passwordField.
      */
     @FXML
     void onLoginEnterClick(ActionEvent event) throws IOException {
+        validateAndLogin();
+    }
+    /**
+     * Lógica de validación
+     */
+    private void validateAndLogin() {
+        userDAO.createTestUser();
+
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-
-        if (username.equals("admin") && password.equals("1234")) {
-
+        if (userDAO.validateLogin(username, password)) {
+            SessionManager.login(username);
             errorLabel.setVisible(false);
             openDashboard();
         } else {
@@ -65,6 +71,31 @@ public class LoginController {
         }
     }
 
+    /**
+     * ¡NUEVO! Se llama al hacer clic en "¿No tienes cuenta? Regístrate"
+     */
+    @FXML
+    void onRegisterLinkClick(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mx/edu/uacm/is/slt/ds/multi_tareas117/views/login/register-view.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene registerScene = new Scene(root);
+            registerScene.getStylesheets().add(new PrimerDark().getUserAgentStylesheet());
+            Stage registerStage = new Stage();
+            registerStage.setTitle("Crear Nueva Cuenta");
+            registerStage.setScene(registerScene);
+            registerStage.initModality(Modality.APPLICATION_MODAL);
+            registerStage.initOwner((Stage) loginButton.getScene().getWindow());
+            registerStage.setResizable(false);
+
+            registerStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            errorLabel.setText("Error al abrir el formulario de registro.");
+            errorLabel.setVisible(true);
+        }
+    }
     /**
      * Carga el FXML del dashboard en una nueva ventana.
      */

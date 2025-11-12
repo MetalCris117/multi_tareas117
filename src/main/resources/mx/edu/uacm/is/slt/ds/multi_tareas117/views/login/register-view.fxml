@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.RegisterController"
+           style="-fx-background-color: #2b3035;">
+
+    <VBox styleClass="card" alignment="CENTER" spacing="10" maxWidth="450">
+        <padding>
+            <Insets top="30" right="40" bottom="30" left="40"/>
+        </padding>
+
+        <FontIcon iconLiteral="fas-user-plus" iconSize="48" styleClass="icon-primary"/>
+        <Label text="Crear Nueva Cuenta" styleClass="h2"/>
+        <Label text="Por favor, completa todos los campos."/>
+
+        <VBox spacing="5" alignment="BASELINE_LEFT">
+            <Label text="Nombre Completo"/>
+            <TextField fx:id="fullNameField" promptText="Ej: Alan Morales"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="BASELINE_LEFT">
+            <Label text="Nombre de Usuario (para login)"/>
+            <TextField fx:id="usernameField" promptText="Ej: admin"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="BASELINE_LEFT">
+            <Label text="Contraseña"/>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <StackPane HBox.hgrow="ALWAYS">
+                    <PasswordField fx:id="passwordField"/>
+                    <TextField fx:id="passwordTextField" visible="false" managed="false"/>
+                </StackPane>
+                <Button fx:id="togglePasswordButton" styleClass="button-icon-flat">
+                    <graphic>
+                        <FontIcon fx:id="passwordIcon" iconLiteral="fas-eye"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5" alignment="BASELINE_LEFT">
+            <Label text="Confirmar Contraseña"/>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <StackPane HBox.hgrow="ALWAYS">
+                    <PasswordField fx:id="confirmPasswordField"/>
+                    <TextField fx:id="confirmPasswordTextField" visible="false" managed="false"/>
+                </StackPane>
+                <Button fx:id="toggleConfirmPasswordButton" styleClass="button-icon-flat">
+                    <graphic>
+                        <FontIcon fx:id="confirmPasswordIcon" iconLiteral="fas-eye"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+
+        <Label fx:id="errorLabel" styleClass="text-danger" visible="false" wrapText="true"/>
+
+        <Button fx:id="registerButton" text="Crear Cuenta"
+                onAction="#onRegisterButtonClick"
+                maxWidth="Infinity" styleClass="accent, large"/>
+
+        <Button fx:id="backButton" text="Volver al Login"
+                onAction="#onBackButtonClick"
+                maxWidth="Infinity" styleClass="flat"/>
+    </VBox>
+</StackPane>

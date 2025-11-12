@@ -15,7 +15,7 @@ public class Main extends Application {
 
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mx/edu/uacm/is/slt/ds/multi_tareas117/views/login/login-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);
         stage.setTitle("Inicio de Sesión");
