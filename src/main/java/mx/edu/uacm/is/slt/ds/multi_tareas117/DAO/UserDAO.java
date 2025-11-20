@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import mx.edu.uacm.is.slt.ds.multi_tareas117.model.User;
+import java.util.ArrayList;
+import java.util.List;
 public class UserDAO {
     /**
      * Busca un usuario por username y password.
@@ -14,17 +16,14 @@ public class UserDAO {
     public boolean validateLogin(String username, String password) {
         String sql = "SELECT * FROM Users WHERE username = ? AND password_hash = ?";
 
-        // ¡ARREGLO! NO usamos try-with-resources en la Connection
         Connection conn = DatabaseManager.getConnection();
-
-        // SÍ usamos try-with-resources en PreparedStatement
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, username);
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // true si encontró al usuario
+            return rs.next();
 
         } catch (SQLException e) {
             System.err.println("Error al validar usuario: " + e.getMessage());
@@ -37,10 +36,8 @@ public class UserDAO {
         String checkSql = "SELECT COUNT(*) FROM Users";
         String insertSql = "INSERT INTO Users(username, password_hash, full_name, avatar_icon) VALUES(?,?,?,?)";
 
-        // ¡ARREGLO! NO usamos try-with-resources en la Connection
         Connection conn = DatabaseManager.getConnection();
 
-        // SÍ usamos try-with-resources en los Statements
         try (Statement checkStmt = conn.createStatement();
              PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
 
@@ -141,6 +138,30 @@ public class UserDAO {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
             return false;
         }
+    }
+    /**
+     * Obtiene una lista de TODOS los usuarios para llenar ComboBoxes.
+     * Devuelve una lista de objetos User.
+     */
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT user_id, full_name, avatar_icon FROM Users";
+        Connection conn = DatabaseManager.getConnection();
+
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getString("full_name"),
+                        "N/A",
+                        rs.getString("avatar_icon")
+                ));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener todos los usuarios: " + e.getMessage());
+        }
+        return users;
     }
 
 }

@@ -44,5 +44,5 @@ build/
 # Archivos de IDE (IntelliJ)
 .idea/
 
-
+*.db
 

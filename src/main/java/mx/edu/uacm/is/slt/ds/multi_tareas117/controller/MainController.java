@@ -37,7 +37,6 @@ public class MainController {
     @FXML
     public void initialize() {
         sidebarToggleButton.setOnAction(e -> toggleSidebar());
-        // Cargar la vista por defecto (Dashboard)
         loadView("dashboard-view.fxml");
     }
 
@@ -87,10 +86,7 @@ public class MainController {
         loadView("profile-view.fxml");
     }
 
-    /**
-     * Método reutilizable para cargar un FXML en el AnchorPane central.
-     * (¡ARREGLADO CON LA RUTA ABSOLUTA!)
-     */
+
     private void loadView(String fxmlFileName) {
         try {
             String fullPath = "/mx/edu/uacm/is/slt/ds/multi_tareas117/views/pages/" + fxmlFileName;

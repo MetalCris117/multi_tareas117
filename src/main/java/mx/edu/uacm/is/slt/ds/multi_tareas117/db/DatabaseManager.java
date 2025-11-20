@@ -6,14 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:sqlite:multi_tareas_117.db";
+
+    private static final String DB_URL = "jdbc:sqlite:gestion_tareas.db";
     private static Connection conn;
 
     public static Connection getConnection() {
         if (conn == null) {
             try {
                 conn = DriverManager.getConnection(DB_URL);
-                System.out.println("Conexión a SQLite establecida.");
                 initializeDatabase(conn);
             } catch (SQLException e) {
                 System.err.println("Error al conectar a la BD: " + e.getMessage());
@@ -26,19 +26,13 @@ public class DatabaseManager {
         if (conn != null) {
             try {
                 conn.close();
-                System.out.println("Conexión a SQLite cerrada.");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             }
         }
     }
 
-    /**
-     * Crea las tablas necesarias si no existen.
-     * ¡CAMBIO! Ahora recibe la conexión como parámetro.
-     */
     private static void initializeDatabase(Connection connectionToUse) {
-
         String usersTableSql = "CREATE TABLE IF NOT EXISTS Users ("
                 + " user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " username TEXT NOT NULL UNIQUE,"
@@ -46,13 +40,16 @@ public class DatabaseManager {
                 + " full_name TEXT NOT NULL,"
                 + " avatar_icon TEXT"
                 + ");";
-
         String tasksTableSql = "CREATE TABLE IF NOT EXISTS Tasks ("
                 + " task_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " title TEXT NOT NULL,"
                 + " status_column TEXT NOT NULL,"
                 + " category_row TEXT NOT NULL,"
                 + " assigned_user_id INTEGER,"
+                + " created_at TEXT NOT NULL,"
+                + " due_date TEXT NOT NULL,"
+                // ¡AQUÍ ESTÁ LA COLUMNA QUE FALTABA!
+                + " is_paused INTEGER DEFAULT 0,"
                 + " FOREIGN KEY (assigned_user_id) REFERENCES Users(user_id)"
                 + ");";
 
@@ -70,7 +67,6 @@ public class DatabaseManager {
             stmt.execute(usersTableSql);
             stmt.execute(tasksTableSql);
             stmt.execute(messagesTableSql);
-            System.out.println("Tablas de la BD verificadas/creadas.");
         } catch (SQLException e) {
             System.err.println("Error al crear tablas: " + e.getMessage());
         }
