@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.RowConstraints?> <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.DashboardController"> <padding>
-    <Insets top="20" left="20" right="20" bottom="20"/>
-</padding>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="mx.edu.uacm.is.slt.ds.multi_tareas117.controller.DashboardController">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20"/>
+    </padding>
 
-    <Label text="Tablero Kanban" styleClass="h1" alignment="CENTER" maxWidth="Infinity"/>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Tablero Kanban" styleClass="h1" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="createTaskButton" text="Crear Tarea" styleClass="button-success"
+                onAction="#onCreateTaskClick">
+            <graphic>
+                <FontIcon iconLiteral="fas-plus"/>
+            </graphic>
+        </Button>
+    </HBox>
 
     <GridPane fx:id="kanbanGrid" VBox.vgrow="ALWAYS" hgap="10" vgap="10">
         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" minWidth="120" maxWidth="120"/> <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>            </columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="120" maxWidth="120"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" fx:id="colTodo"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" fx:id="colWeek"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" fx:id="colDoing"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" fx:id="colDone"/>
+        </columnConstraints>
         <rowConstraints>
-            <RowConstraints vgrow="NEVER" minHeight="50"/> <RowConstraints vgrow="ALWAYS"/>                 <RowConstraints vgrow="ALWAYS"/>                 <RowConstraints vgrow="ALWAYS"/>                 <RowConstraints vgrow="ALWAYS"/>                 </rowConstraints>
+            <RowConstraints vgrow="NEVER" minHeight="50"/>
+            <RowConstraints vgrow="ALWAYS" fx:id="rowRrhh"/>
+            <RowConstraints vgrow="ALWAYS" fx:id="rowVentas"/>
+            <RowConstraints vgrow="ALWAYS" fx:id="rowMktg"/>
+            <RowConstraints vgrow="ALWAYS" fx:id="rowAtc"/>
+        </rowConstraints>
 
         <Label text="Por hacer" GridPane.columnIndex="1" GridPane.rowIndex="0"
                styleClass="kanban-header, bg-warning"/>
@@ -41,76 +58,6 @@
                styleClass="kanban-category-label"/>
         <Label text="Atención al cliente" GridPane.columnIndex="0" GridPane.rowIndex="4"
                styleClass="kanban-category-label"/>
-
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="A"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="J"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="M"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="4" GridPane.rowIndex="1">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="J"/>
-            </StackPane>
-        </VBox>
-
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="AD"/>
-            </StackPane>
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="D"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="3" GridPane.rowIndex="2">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="R"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="4" GridPane.rowIndex="2">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="M"/>
-            </StackPane>
-        </VBox>
-
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="C"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="3" GridPane.rowIndex="3">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="JO"/>
-            </StackPane>
-        </VBox>
-
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="1" GridPane.rowIndex="4">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="R"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="3" GridPane.rowIndex="4">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="R"/>
-            </StackPane>
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="P"/>
-            </StackPane>
-        </VBox>
-        <VBox styleClass="kanban-cell" GridPane.columnIndex="4" GridPane.rowIndex="4">
-            <StackPane styleClass="kanban-card, bg-white" maxWidth="100" minHeight="50">
-                <Label text="A"/>
-            </StackPane>
-        </VBox>
 
     </GridPane>
 </VBox>
