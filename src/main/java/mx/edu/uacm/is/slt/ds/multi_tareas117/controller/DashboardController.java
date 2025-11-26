@@ -84,23 +84,40 @@ public class DashboardController {
      * Implementa el [Actualizar Kanban]
      */
     private void refreshKanbanBoard() {
-        // 1. Limpiar solo las celdas y tarjetas (nodos dinámicos)
         kanbanGrid.getChildren().removeIf(node -> node instanceof VBox);
-
-        // 2. Obtener todas las tareas de la BD
+        createAllCells();
         List<Task> tasks = taskDAO.getAllTasks();
-
-        // 3. Dibujar cada tarea en el tablero
         for (Task task : tasks) {
-            // Crear la "tarjeta" (StackPane)
             StackPane card = createCard(task);
 
-            // Encontrar la celda correcta (Columna, Fila)
             int colIndex = getColumnIndex(task.getStatusColumn());
             int rowIndex = getRowIndex(task.getCategoryRow());
 
-            // Añadir la tarjeta a la celda
-            addCardToCell(card, colIndex, rowIndex);
+            VBox cell = getCell(colIndex, rowIndex);
+
+            if (cell != null) {
+                VBox.setMargin(card, new javafx.geometry.Insets(5));
+                cell.getChildren().add(card);
+            }
+        }
+    }
+
+    /**
+     * Genera las 16 celdas (4x4) vacías y las configura como DropTargets.
+     */
+    private void createAllCells() {
+        for (int col = 1; col <= 4; col++) {
+            for (int row = 1; row <= 4; row++) {
+                VBox cell = new VBox();
+                cell.getStyleClass().add("kanban-cell");
+
+                cell.setMaxWidth(Double.MAX_VALUE);
+                cell.setMaxHeight(Double.MAX_VALUE);
+                GridPane.setVgrow(cell, javafx.scene.layout.Priority.ALWAYS);
+                GridPane.setHgrow(cell, javafx.scene.layout.Priority.ALWAYS);
+                setupDropTarget(cell);
+                kanbanGrid.add(cell, col, row);
+            }
         }
     }
 
@@ -123,22 +140,18 @@ public class DashboardController {
         timeProgress.setMaxWidth(Double.MAX_VALUE);
         timeProgress.setPrefHeight(10);
 
-        // --- LÓGICA VISUAL ACTUALIZADA ---
 
-        // CASO 1: Tarea Finalizada ("done")
         if (task.getStatusColumn().equals("done")) {
-            timeProgress.setProgress(1.0); // Barra llena
-            timeProgress.setStyle("-fx-accent: #4caf50;"); // Verde Brillante
-            titleLabel.setStyle("-fx-text-fill: #888; -fx-strikethrough: true;"); // Texto gris y tachado
+            timeProgress.setProgress(1.0);
+            timeProgress.setStyle("-fx-accent: #4caf50;");
+            titleLabel.setStyle("-fx-text-fill: #888; -fx-strikethrough: true;");
         }
-        // CASO 2: Tarea Pausada
         else if (task.isPaused()) {
             double progress = task.getTimeProgress();
             timeProgress.setProgress(progress);
             timeProgress.setStyle("-fx-accent: #78909c;"); // Gris Azulado
             titleLabel.setText("⏸ " + task.getTitle());
         }
-        // CASO 3: Tarea Activa (Calculamos urgencia)
         else {
             double progress = task.getTimeProgress();
             timeProgress.setProgress(progress);
@@ -148,7 +161,6 @@ public class DashboardController {
             else timeProgress.setStyle("-fx-accent: #29b6f6;"); // Azul
         }
 
-        // ... (El resto del método sigue igual: Label de fecha, añadir hijos, setupDraggable...)
         Label dateLabel = new Label("Vence: " + task.getFormattedDueDate());
         dateLabel.getStyleClass().add("text-small");
         dateLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #b0bec5;");
@@ -161,24 +173,6 @@ public class DashboardController {
 
         return card;
     }
-    /**
-     * Añade una tarjeta a una celda del GridPane.
-     * Si la celda (VBox) no existe, la crea.
-     */
-    private void addCardToCell(StackPane card, int colIndex, int rowIndex) {
-        VBox cell = getCell(colIndex, rowIndex);
-        if (cell == null) {
-            // Si no existe, crearla
-            cell = new VBox();
-            cell.getStyleClass().add("kanban-cell");
-            cell.setMaxWidth(Double.MAX_VALUE);
-            setupDropTarget(cell);
-            kanbanGrid.add(cell, colIndex, rowIndex);
-        }
-        VBox.setMargin(card, new Insets(5));
-        cell.getChildren().add(card);
-    }
-
     private int getColumnIndex(String statusId) {
         switch (statusId) {
             case "todo": return 1;
@@ -218,24 +212,42 @@ public class DashboardController {
             event.consume();
         });
     }
-
+    /**
+     * Configura una celda (VBox) para aceptar tarjetas arrastradas.
+     */
     private void setupDropTarget(VBox cell) {
+        cell.setOnDragOver(event -> {
+            if (event.getGestureSource() != cell && event.getDragboard().hasString()) {
+                if (event.getDragboard().getString().equals("kanban-card")) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                    if (!cell.getStyleClass().contains("drag-over")) {
+                        cell.getStyleClass().add("drag-over");
+                    }
+                }
+            }
+            event.consume();
+        });
         cell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             boolean success = false;
 
             if (db.hasString() && draggedCard != null) {
+                Task task = (Task) draggedCard.getUserData();
+                int newColIndex = GridPane.getColumnIndex(cell);
+                int newRowIndex = GridPane.getRowIndex(cell);
+                String newColId = getColumnId(newColIndex);
+                String newRowId = getRowId(newRowIndex);
+
+                if (task.getStatusColumn().equals(newColId) && task.getCategoryRow().equals(newRowId)) {
+                    event.setDropCompleted(true);
+                    draggedCard = null;
+                    event.consume();
+                    return;
+                }
                 VBox oldParent = (VBox) draggedCard.getParent();
                 oldParent.getChildren().remove(draggedCard);
                 cell.getChildren().add(draggedCard);
                 success = true;
-
-                Task task = (Task) draggedCard.getUserData();
-                int newCol = GridPane.getColumnIndex(cell);
-                int newRow = GridPane.getRowIndex(cell);
-
-                String newColId = getColumnId(newCol);
-                String newRowId = getRowId(newRow);
 
                 task.setStatusColumn(newColId);
                 task.setCategoryRow(newRowId);
@@ -243,7 +255,7 @@ public class DashboardController {
 
                 if (newColId.equals("done") && task.isPaused()) {
                     task.setPaused(false);
-                    taskDAO.updateTaskPause(task.getId(), false); // Actualizamos en BD
+                    taskDAO.updateTaskPause(task.getId(), false);
                 }
 
                 refreshKanbanBoard();
@@ -254,28 +266,40 @@ public class DashboardController {
             event.consume();
         });
 
-        cell.setOnDragExited(event -> cell.getStyleClass().remove("drag-over"));
-
         cell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             boolean success = false;
 
             if (db.hasString() && draggedCard != null) {
+                Task task = (Task) draggedCard.getUserData();
+
+                int newColIndex = GridPane.getColumnIndex(cell);
+                int newRowIndex = GridPane.getRowIndex(cell);
+                String newColId = getColumnId(newColIndex);
+                String newRowId = getRowId(newRowIndex);
+
+                if (task.getStatusColumn().equals(newColId) && task.getCategoryRow().equals(newRowId)) {
+                    event.setDropCompleted(true);
+                    draggedCard = null;
+                    event.consume();
+                    return;
+                }
+
                 VBox oldParent = (VBox) draggedCard.getParent();
                 oldParent.getChildren().remove(draggedCard);
                 cell.getChildren().add(draggedCard);
                 success = true;
 
-                Task task = (Task) draggedCard.getUserData();
-                int newCol = GridPane.getColumnIndex(cell);
-                int newRow = GridPane.getRowIndex(cell);
-
-                String newColId = getColumnId(newCol);
-                String newRowId = getRowId(newRow);
-
                 task.setStatusColumn(newColId);
                 task.setCategoryRow(newRowId);
                 taskDAO.updateTaskPosition(task.getId(), newColId, newRowId);
+
+                if (newColId.equals("done") && task.isPaused()) {
+                    task.setPaused(false);
+                    taskDAO.updateTaskPause(task.getId(), false);
+                }
+
+                refreshKanbanBoard();
             }
 
             event.setDropCompleted(success);
@@ -290,6 +314,11 @@ public class DashboardController {
     private void setupContextMenu(StackPane card, Task task) {
         ContextMenu contextMenu = new ContextMenu();
 
+        // 1. Opción Editar
+        MenuItem editTask = new MenuItem("Editar Tarea");
+        editTask.setOnAction(e -> openEditModal(task));
+
+        // 2. Opciones de movimiento (¡AQUÍ ESTABA EL ERROR, FALTABAN VARIABLES!)
         MenuItem moveTodo = new MenuItem("Mover a: Por Hacer");
         moveTodo.setOnAction(e -> updateTaskStatus(task, "todo"));
 
@@ -302,6 +331,8 @@ public class DashboardController {
         MenuItem moveDone = new MenuItem("Mover a: Hecho");
         moveDone.setOnAction(e -> updateTaskStatus(task, "done"));
 
+        contextMenu.getItems().add(editTask);
+        contextMenu.getItems().add(new SeparatorMenuItem());
         contextMenu.getItems().addAll(moveTodo, moveWeek, moveDoing, moveDone);
 
         if (!task.getStatusColumn().equals("done")) {
@@ -317,9 +348,41 @@ public class DashboardController {
             contextMenu.getItems().add(togglePause);
         }
 
-        card.setOnContextMenuRequested(e -> {
-            contextMenu.show(card, e.getScreenX(), e.getScreenY());
-        });
+        card.setOnContextMenuRequested(e -> contextMenu.show(card, e.getScreenX(), e.getScreenY()));
+    }
+    /**
+     * Abre el modal reutilizado pero en modo edición.
+     */
+    private void openEditModal(Task task) {
+        try {
+            String fxmlPath = "/mx/edu/uacm/is/slt/ds/multi_tareas117/views/pages/new-task-view.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxmlPath));
+            Parent root = fxmlLoader.load();
+
+            NewTaskController modalController = fxmlLoader.getController();
+
+            modalController.setTaskToEdit(task);
+            // -------------------------
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(new PrimerDark().getUserAgentStylesheet());
+
+            Stage modalStage = new Stage();
+            modalStage.setTitle("Editar Tarea");
+            modalStage.setScene(scene);
+            modalStage.initModality(Modality.APPLICATION_MODAL);
+            modalStage.initOwner(createTaskButton.getScene().getWindow());
+            modalStage.setResizable(false);
+
+            modalStage.showAndWait();
+
+            if (modalController.isTaskCreated()) {
+                refreshKanbanBoard();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * Helper para mover tareas desde el menú

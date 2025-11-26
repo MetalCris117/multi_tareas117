@@ -142,18 +142,10 @@ public class UsuariosController {
     private void onSendMessageClick() {
         String message = messageTextArea.getText();
         if (message.isEmpty() || currentlySelectedUser == null) {
-            return; // No hacer nada si no hay mensaje o usuario
+            return;
         }
-
-        System.out.println("====== NUEVO MENSAJE ======");
-        System.out.println("Para: " + currentlySelectedUser.getName());
-        System.out.println("Mensaje: " + message);
-        System.out.println("===========================");
-
-        // Limpiar el área de texto
         messageTextArea.clear();
 
-        // (Opcional) Mostrar una alerta de confirmación
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Mensaje Enviado");
         alert.setHeaderText(null);
