@@ -31,7 +31,6 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        // 1. Obtener el nombre de usuario de la sesión
         currentUsername = SessionManager.getLoggedInUsername();
         if (currentUsername == null) {
             showError("Error: No se pudo encontrar al usuario logueado.");
@@ -57,8 +56,6 @@ public class ProfileController {
         String fullName = fullNameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-
-        // --- Validaciones ---
         if (fullName.isEmpty()) {
             showError("El nombre completo no puede estar vacío.");
             return;
@@ -67,8 +64,6 @@ public class ProfileController {
             showError("Las contraseñas no coinciden.");
             return;
         }
-
-        // --- Guardar en la BD ---
         boolean success = userDAO.updateUserProfile(currentUsername, fullName, password);
 
         if (success) {

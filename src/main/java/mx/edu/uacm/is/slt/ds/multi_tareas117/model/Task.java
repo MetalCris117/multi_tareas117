@@ -12,9 +12,10 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime dueDate;
     private boolean isPaused;
+    private String assignedUser;
 
     // Constructor
-    public Task(int id, String title, String statusColumn, String categoryRow, String createdAtStr, String dueDateStr,boolean isPaused) {
+    public Task(int id, String title, String statusColumn, String categoryRow, String createdAtStr, String dueDateStr,boolean isPaused, String assignedUser) {
         this.id = id;
         this.title = title;
         this.statusColumn = statusColumn;
@@ -23,6 +24,7 @@ public class Task {
         this.createdAt = LocalDateTime.parse(createdAtStr);
         this.dueDate = LocalDateTime.parse(dueDateStr);
         this.isPaused = isPaused;
+        this.assignedUser = assignedUser;
     }
 
     public int getId() { return id; }
@@ -31,6 +33,7 @@ public class Task {
     public String getCategoryRow() { return categoryRow; }
     public LocalDateTime getDueDate() { return dueDate; }
     public boolean isPaused() { return isPaused; }
+    public String getAssignedUser() { return assignedUser; }
 
     public void setStatusColumn(String statusColumn) { this.statusColumn = statusColumn; }
     public void setCategoryRow(String categoryRow) { this.categoryRow = categoryRow; }
